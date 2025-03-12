@@ -1,76 +1,113 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeScreen';
-import StatsScreen from '../screens/StatsScreen';
-import AccountsScreen from '../screens/AccountsScreen';
-import ProfileScreen from '../screens/ProfileScreen';
 import {NavigationContainer} from '@react-navigation/native';
-// import Ionicons from 'react-native-vector-icons/Ionicons';
+import PricingDetailScreen from '../screens/PricingDetailScreen';
+import TermsConditionsScreen from '../screens/TermsConditionsScreen';
+import AboutScreen from '../screens/AboutScreen';
+import Splash from '../screens/SplashScreen';
+import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
+import RewardsScreen from '../screens/RewardsScreen';
+import BottomTabs from './BottomTabs';
+import {AppContext} from '../context/AppContext';
+
+const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
-  const Stack = createNativeStackNavigator();
-  const Tab = createBottomTabNavigator();
-
-  function BottomTabs() {
-    return (
-      <Tab.Navigator
-        screenOptions={() => ({
-          tabBarShowLabel: false,
-          tabBarStyle: {height: 90},
-        })}>
-        <Tab.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Tab.Screen
-          name="Stats"
-          component={StatsScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Tab.Screen
-          name="Accounts"
-          component={AccountsScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Tab.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-      </Tab.Navigator>
-    );
-  }
-
-  function MainStack() {
-    return (
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Main"
-          component={BottomTabs}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
-    );
-  }
+  const {token} = useContext(AppContext);
 
   return (
-    <NavigationContainer>
-      <MainStack />
-    </NavigationContainer>
+    // <Stack.Navigator initialRouteName="Splash">
+    //   {token ? (
+    //     <>
+    //       <Stack.Screen
+    //         name="Main"
+    //         component={BottomTabs}
+    //         options={{headerShown: false}}
+    //       />
+
+    //       <Stack.Screen
+    //         name="PricingDetail"
+    //         component={PricingDetailScreen}
+    //         options={{title: 'Plan Details'}}
+    //       />
+
+    //       <Stack.Screen
+    //         name="TermsConditions"
+    //         component={TermsConditionsScreen}
+    //         options={{headerShown: false}}
+    //       />
+
+    //       <Stack.Screen
+    //         name="About"
+    //         component={AboutScreen}
+    //         options={{headerShown: false}}
+    //       />
+
+    //       <Stack.Screen
+    //         name="Rewards"
+    //         component={RewardsScreen}
+    //         options={{headerShown: false}}
+    //       />
+    //     </>
+    //   ) : (
+    //     <>
+    //       {' '}
+    //       <Stack.Screen
+    //         name="Splash"
+    //         component={Splash}
+    //         options={{headerShown: false}}
+    //       />
+    //       <Stack.Screen
+    //         name="Register"
+    //         component={RegisterScreen}
+    //         options={{headerShown: false}}
+    //       />
+    //       <Stack.Screen
+    //         name="Login"
+    //         component={LoginScreen}
+    //         options={{headerShown: false}}
+    //       />
+    //     </>
+    //   )}
+    // </Stack.Navigator>
+
+    <Stack.Navigator initialRouteName={token ? 'Main' : 'Splash'}>
+      {/* Public Screens (before login) */}
+      <Stack.Screen
+        name="Splash"
+        component={Splash}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{headerShown: false}}
+      />
+
+      {/* Private Screens (after login) */}
+      <Stack.Screen
+        name="Main"
+        component={BottomTabs}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="PricingDetail"
+        component={PricingDetailScreen}
+        options={{title: 'Plan Details'}}
+      />
+      <Stack.Screen
+        name="TermsConditions"
+        component={TermsConditionsScreen}
+        options={{title: 'Terms & Conditions'}}
+      />
+    </Stack.Navigator>
   );
 };
 
