@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   View,
   Text,
@@ -8,10 +8,86 @@ import {
   StatusBar,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {AppContext} from '../context/AppContext';
+import {launchImageLibrary} from 'react-native-image-picker';
+import axios from 'axios';
+import {useNavigation} from '@react-navigation/native';
 
 const ProfileScreen = () => {
+  const {userData, backendUrl, logout} = useContext(AppContext);
+
+  const navigation = useNavigation();
+
+  const [firstName, setFirstName] = useState(userData?.firstName || '');
+  const [lastName, setLastName] = useState(userData?.lastName || '');
+  const [country, setCountry] = useState(
+    userData?.billingAddress?.country || '',
+  );
+  const [state, setState] = useState(userData?.billingAddress?.state || '');
+  const [city, setCity] = useState(userData?.billingAddress?.city || '');
+  const [zipCode, setZipCode] = useState(
+    userData?.billingAddress?.pinCode || '',
+  );
+  const [image, setImage] = useState(userData?.image || null);
+  const [selectedImageBase64, setSelectedImageBase64] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const pickImage = () => {
+    launchImageLibrary(
+      {mediaType: 'photo', quality: 0.8, includeBase64: true},
+      response => {
+        if (response.didCancel) {
+          console.log('User Cancelled Image Picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.assets && response.assets.length > 0) {
+          const selectedImage = response.assets[0];
+          setImage(selectedImage.uri);
+          setSelectedImageBase64(selectedImage.base64);
+        }
+      },
+    );
+  };
+
+  const updateProfile = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        backendUrl + '/api/user/update-profile',
+        {
+          userId: userData?._id,
+          firstName,
+          lastName,
+          country,
+          state,
+          city,
+          zipCode,
+          image: selectedImageBase64
+            ? `data:image/jpeg;base64,${selectedImageBase64}`
+            : image,
+        },
+      );
+
+      if (response.data.success) {
+        Alert.alert('Success', 'Profile updated successfully!');
+      } else {
+        Alert.alert('Error', response.data.message);
+      }
+    } catch (error) {
+      console.log('Upload Error: ', error);
+      Alert.alert('Upload Failed', 'Something Went Wrong');
+    }
+    setLoading(false);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    navigation.navigate('Login');
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -29,39 +105,82 @@ const ProfileScreen = () => {
         <View style={styles.container}>
           {/* Profile Image */}
           <View style={styles.imageContainer}>
-            <Image
-              source={{
-                uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png',
-              }}
-              style={styles.profileImage}
-            />
+            <TouchableOpacity onPress={pickImage}>
+              {' '}
+              <Image
+                source={{
+                  uri:
+                    image ||
+                    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png',
+                }}
+                style={styles.profileImage}
+              />
+            </TouchableOpacity>
           </View>
 
           <View style={styles.formContainer}>
             <Text style={styles.labelStyle}>First Name</Text>
-            <TextInput style={styles.input} placeholder="First Name" />
-            <Text style={styles.labelStyle}>Last Name</Text>
-            <TextInput style={styles.input} placeholder="Last Name" />
-            <Text style={styles.labelStyle}>Email Address</Text>
             <TextInput
               style={styles.input}
+              value={userData?.firstName}
+              placeholder="First Name"
+            />
+            <Text style={styles.labelStyle}>Last Name</Text>
+            <TextInput
+              style={styles.input}
+              value={userData?.lastName}
+              placeholder="Last Name"
+            />
+            <Text style={styles.labelStyle}>Email Address</Text>
+            <TextInput
+              style={[
+                styles.input,
+                userData?.email ? styles.disabledInput : null,
+              ]}
               placeholder="Email"
               keyboardType="email-address"
+              editable={false}
+              value={userData?.email}
             />
             <Text style={styles.labelStyle}>Country</Text>
-            <TextInput style={styles.input} placeholder="Country" />
+            <TextInput
+              style={styles.input}
+              value={userData?.billingAddress?.country}
+              placeholder="Country"
+            />
             <Text style={styles.labelStyle}>State</Text>
-            <TextInput style={styles.input} placeholder="State" />
+            <TextInput
+              style={styles.input}
+              value={userData?.billingAddress?.state}
+              placeholder="State"
+            />
             <Text style={styles.labelStyle}>City</Text>
-            <TextInput style={styles.input} placeholder="City" />
+            <TextInput
+              style={styles.input}
+              value={userData?.billingAddress?.city}
+              placeholder="City"
+            />
 
-            <View style={styles.readOnlyContainer}>
+            <Text style={styles.labelStyle}>Zip Code</Text>
+            <TextInput
+              style={styles.input}
+              value={userData?.billingAddress?.pinCode}
+              placeholder="Zip Code"
+            />
+
+            {/* <View style={styles.readOnlyContainer}>
               <Text style={styles.label}>Membership Plan:</Text>
               <Text style={styles.readOnlyText}>Bronze</Text>
-            </View>
+            </View> */}
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity onPress={updateProfile} style={styles.button}>
               <Text style={styles.buttonText}>Update Profile</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={handleLogout}
+              style={[styles.button, styles.logoutButton]}>
+              <Text style={styles.buttonText}>Logout</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -166,5 +285,14 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+
+  disabledInput: {
+    backgroundColor: 'lightgray',
+    color: 'gray',
+  },
+
+  logoutButton: {
+    backgroundColor: '#D32F2F', // Red color for logout button
   },
 });

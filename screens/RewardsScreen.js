@@ -20,7 +20,7 @@ const RewardsScreen = ({navigation}) => {
 
       {/* Fixed Header */}
       <View style={styles.header}>
-        <Text style={styles.heading}>Your Rewards</Text>
+        <Text style={styles.heading}>My Rewards</Text>
       </View>
 
       <View>

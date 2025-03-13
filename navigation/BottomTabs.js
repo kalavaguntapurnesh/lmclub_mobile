@@ -2,16 +2,10 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import {StyleSheet, Text, View} from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
-import StatsScreen from '../screens/StatsScreen';
 import AccountsScreen from '../screens/AccountsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import PricingDetailScreen from '../screens/PricingDetailScreen';
-import TermsConditionsScreen from '../screens/TermsConditionsScreen';
-import AboutScreen from '../screens/AboutScreen';
-import Splash from '../screens/SplashScreen';
-import LoginScreen from '../screens/LoginScreen';
-import RegisterScreen from '../screens/RegisterScreen';
 import RewardsScreen from '../screens/RewardsScreen';
+import CartScreen from '../screens/CartScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -52,10 +46,10 @@ const BottomTabs = () => {
       />
 
       <Tab.Screen
-        name="Accounts"
-        component={AccountsScreen}
+        name="CartScreen"
+        component={CartScreen}
         options={{
-          tabBarLabel: 'Beehive',
+          tabBarLabel: 'My Cart',
           headerShown: false,
           tabBarLabelStyle: {
             fontSize: 10,

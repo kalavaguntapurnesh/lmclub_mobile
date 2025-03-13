@@ -18,30 +18,35 @@ import {AppContext} from '../context/AppContext';
 
 const sliderImages = [
   {
+    id: 1,
     uri: 'https://www.lmclub.club/assets/beehive-CqYcaS-I.webp',
     title: 'Beehive',
     description:
       'Unlock the beehive, it will allow us to text/email great deals, coupons, information and opportunities from local businesses.',
   },
   {
+    id: 2,
     uri: 'https://www.lmclub.club/assets/broadcast-CWHhJIqs.webp',
     title: 'Broadcast',
     description:
       'Broadcast your message to a wider audience and make your business heard.',
   },
   {
+    id: 3,
     uri: 'https://www.lmclub.club/assets/estore-DhiTkpHR.webp',
     title: 'EStore',
     description:
       'Shop conveniently from your favorite online stores and get exclusive deals.',
   },
   {
+    id: 4,
     uri: 'https://www.lmclub.club/assets/enroll-CJF6H07Z.webp',
     title: 'Enroll',
     description:
       'Enroll in exclusive programs that help grow your business and community.',
   },
   {
+    id: 5,
     uri: 'https://www.lmclub.club/assets/network-Cwi2h2ca.webp',
     title: 'Network',
     description:
@@ -133,7 +138,9 @@ const HomeScreen = () => {
 
       {/* Welcome Message */}
       <View style={styles.welcomeContainer}>
-        <Text style={styles.welcomeText}>Welcome {userData && `${userData.firstName} ${userData.lastName}`}</Text>
+        <Text style={styles.welcomeText}>
+          Welcome {userData && `${userData.firstName} ${userData.lastName}`}
+        </Text>
         <Text style={styles.welcomeTwo}>
           To the world's best membership club!
         </Text>
@@ -252,8 +259,9 @@ const HomeScreen = () => {
                         value={isChecked}
                         onValueChange={setIsChecked}
                         style={styles.checkbox}
-                        tintColor="#555"
-                        onCheckColor="#4CAF50"
+                        boxType="square"
+                        // tintColor="#f2f2f3"
+                        // onCheckColor="#4CAF50"
                       />
 
                       <Text style={styles.checkText}>
@@ -261,7 +269,7 @@ const HomeScreen = () => {
                         <TouchableOpacity
                           onPress={() => {
                             setModalVisible(false);
-                            navigation.navigate('About');
+                            navigation.navigate('TermsConditions');
                           }}>
                           <Text style={styles.underline}>
                             {' '}
@@ -443,7 +451,6 @@ const styles = StyleSheet.create({
     color: '#555',
   },
   checkboxContainer: {
-    display: 'flex',
     flexDirection: 'row',
     gap: 2,
     alignItems: 'center',
@@ -455,18 +462,21 @@ const styles = StyleSheet.create({
   checkText: {
     color: '#555',
     marginLeft: 4,
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
   },
 
   checkbox: {
-    width: 8,
-    height: 8,
+    width: 16,
+    height: 16,
+    borderWidth: 1,
+    alignSelf: 'center',
+    borderColor: '#1A1A1A',
   },
 
   underline: {
     textDecorationLine: 'underline',
+    marginBottom: -4,
   },
 
   buttonsFlex: {

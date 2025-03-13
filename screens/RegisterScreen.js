@@ -104,7 +104,7 @@ const Register = () => {
           style={styles.backButton}
           onPress={() => navigation.goBack()}>
           {/* <Ionicons name='arrow-back' size={24} color='#000' /> */}
-          <Text>X</Text>
+          {/* <Text>X</Text> */}
         </TouchableOpacity>
 
         {/* Create an Account Text */}
@@ -122,7 +122,6 @@ const Register = () => {
             placeholder="Enter your email"
             placeholderTextColor="#aaa"
             keyboardType="email-address"
-            
             value={email}
             onChangeText={setEmail}
           />

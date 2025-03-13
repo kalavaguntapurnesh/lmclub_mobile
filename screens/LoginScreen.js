@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
   Dimensions,
+  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Animated, {
@@ -146,9 +147,9 @@ const Login = () => {
         </Text>
 
         {/* Business User Enroll Button */}
-        <TouchableOpacity style={styles.businessButton}>
+        {/* <TouchableOpacity style={styles.businessButton}>
           <Text style={styles.businessButtonText}>Business User Enroll</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );
@@ -170,11 +171,12 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: 50,
   },
   topImage: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover', // Adjusted to fit the logo properly
+    width: 200,
+    height: 200,
+    resizeMode: 'cover',
   },
   curvedContainer: {
     flex: 1,

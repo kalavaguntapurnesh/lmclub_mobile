@@ -15,6 +15,20 @@ const AppContextProvider = ({children}) => {
 
   const [token, setToken] = useState(null);
 
+  const [cart, setCart] = useState([]);
+
+  const addToCart = item => {
+    setCart(prevCart => [...prevCart, item]);
+  };
+
+  const removeFromCart = itemId => {
+    setCart(prevCart => prevCart.filter(item => item.id !== itemId));
+  };
+
+  const clearCart = () => {
+    setCart([]);
+  };
+
   useEffect(() => {
     const loadToken = async () => {
       try {
@@ -69,19 +83,23 @@ const AppContextProvider = ({children}) => {
 
   const login = async (email, password) => {
     try {
-      const {data} = await axios.post(`${backendUrl}/api/user/login`, {
-        email,
-        password,
-      });
-      if (data.success) {
-        await AsyncStorage.setItem('token', data.token);
-        setToken(data.token);
-        loadUserProfileData(data.token);
-        console.log('Login Successful, token stored.', data.token);
-        return true;
+      if (email === '' || password === '') {
+        Alert.alert('Fields required', 'Enter email or password fields');
       } else {
-        Alert.alert('Login Failed', data.message);
-        return false;
+        const {data} = await axios.post(`${backendUrl}/api/user/login`, {
+          email,
+          password,
+        });
+        if (data.success) {
+          await AsyncStorage.setItem('token', data.token);
+          setToken(data.token);
+          loadUserProfileData(data.token);
+          console.log('Login Successful, token stored.', data.token);
+          return true;
+        } else {
+          Alert.alert('Login Failed', data.message);
+          return false;
+        }
       }
     } catch (error) {
       console.log('error');
@@ -105,6 +123,10 @@ const AppContextProvider = ({children}) => {
     loadUserProfileData,
     login,
     logout,
+    cart,
+    addToCart,
+    removeFromCart,
+    clearCart,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

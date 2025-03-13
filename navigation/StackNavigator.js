@@ -11,6 +11,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import RewardsScreen from '../screens/RewardsScreen';
 import BottomTabs from './BottomTabs';
 import {AppContext} from '../context/AppContext';
+import CartScreen from '../screens/CartScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -105,7 +106,13 @@ const StackNavigator = () => {
       <Stack.Screen
         name="TermsConditions"
         component={TermsConditionsScreen}
-        options={{title: 'Terms & Conditions'}}
+        options={{title: 'Terms & Conditions', headerShown: false}}
+      />
+
+      <Stack.Screen
+        name="CartScreen"
+        component={CartScreen}
+        options={{title: 'My Cart'}}
       />
     </Stack.Navigator>
   );

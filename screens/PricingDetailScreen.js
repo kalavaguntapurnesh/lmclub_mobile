@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   View,
   Text,
@@ -6,10 +6,28 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Alert,
 } from 'react-native';
+import {CartContext} from '../context/CartContext';
+import {useNavigation} from '@react-navigation/native';
+import {AppContext} from '../context/AppContext';
 
 const PricingDetailScreen = ({route, navigation}) => {
-  const {image, name, price, description} = route.params;
+  const {id, image, name, price, description} = route.params;
+
+  const navigate = useNavigation();
+
+  console.log('ID is : ', id);
+  console.log('Name is : ', name);
+
+  // Get addToCart function from CartContext
+  const {addToCart} = useContext(AppContext);
+
+  const handleAddToCart = () => {
+    const product = {id: name, price, image, description}; // Create product object
+    addToCart(product); // Add the product to the cart
+    Alert.alert(`${name} has been added to your cart!`);
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -78,12 +96,14 @@ const PricingDetailScreen = ({route, navigation}) => {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => alert('Added to Cart')}>
+              // onPress={() => alert('Added to Cart')}
+              onPress={handleAddToCart}>
               <Text style={styles.cartText}>Add to Cart</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonCheckout}
-              onPress={() => alert('Proceed to Checkout')}>
+              // onPress={() => alert('Proceed to Checkout')}
+              onPress={() => navigation.navigate('CartScreen')}>
               <Text style={styles.buttonText}>Checkout</Text>
             </TouchableOpacity>
           </View>
