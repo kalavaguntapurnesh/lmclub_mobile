@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   View,
   Text,
@@ -17,15 +17,23 @@ const PricingDetailScreen = ({route, navigation}) => {
 
   const navigate = useNavigation();
 
+  const [isYearly, setIsYearly] = useState(false);
+
   console.log('ID is : ', id);
   console.log('Name is : ', name);
 
   // Get addToCart function from CartContext
   const {addToCart} = useContext(AppContext);
 
+  const togglePlan = () => {
+    setIsYearly(prevState => !prevState);
+  };
+
   const handleAddToCart = () => {
-    const product = {id: name, price, image, description}; // Create product object
-    addToCart(product); // Add the product to the cart
+    const finalPrice = isYearly ? price * 12 : price;
+
+    const product = {id: name, price: finalPrice, image, description};
+    addToCart(product);
     Alert.alert(`${name} has been added to your cart!`);
   };
 
@@ -90,7 +98,15 @@ const PricingDetailScreen = ({route, navigation}) => {
         </View>
 
         <View style={styles.priceSection}>
-          <Text style={styles.planPrice}>${price}/month</Text>
+          <Text style={styles.planPrice}>
+            {' '}
+            ${isYearly ? price * 12 : price}/ {isYearly ? 'year' : 'month'}
+          </Text>
+          <TouchableOpacity style={styles.toggleButton} onPress={togglePlan}>
+            <Text style={styles.toggleButtonText}>
+              {isYearly ? 'Monthly' : 'Yearly '}
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.bottomContainer}>
           <View style={styles.buttonContainer}>
@@ -217,6 +233,9 @@ const styles = StyleSheet.create({
 
   priceSection: {
     paddingHorizontal: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   planPrice: {
     fontSize: 20,
@@ -258,5 +277,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
+  },
+  toggleButton: {
+    borderColor: '#4CAF50',
+    borderWidth: 1,
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    borderRadius: 4,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  toggleButtonText: {
+    color: '#4CAF50',
+    fontSize: 12,
+    fontWeight: '600',
   },
 });

@@ -9,7 +9,7 @@ const Splash = ({ navigation }) => {
   useEffect(() => {
     const prepare = async () => {
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Keep splash for 4 sec
-      navigation.replace('Register');
+      navigation.replace('GetStarted');
     };
 
     prepare();

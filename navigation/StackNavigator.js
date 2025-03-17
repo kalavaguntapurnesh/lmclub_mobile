@@ -12,6 +12,7 @@ import RewardsScreen from '../screens/RewardsScreen';
 import BottomTabs from './BottomTabs';
 import {AppContext} from '../context/AppContext';
 import CartScreen from '../screens/CartScreen';
+import GetStartedScreen from '../screens/GetStartedScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -81,6 +82,13 @@ const StackNavigator = () => {
         component={Splash}
         options={{headerShown: false}}
       />
+
+      <Stack.Screen
+        name="GetStarted"
+        component={GetStartedScreen}
+        options={{headerShown: false}}
+      />
+
       <Stack.Screen
         name="Login"
         component={LoginScreen}

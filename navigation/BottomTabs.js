@@ -6,6 +6,8 @@ import AccountsScreen from '../screens/AccountsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import RewardsScreen from '../screens/RewardsScreen';
 import CartScreen from '../screens/CartScreen';
+import AboutScreen from '../screens/AboutScreen';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,8 +28,15 @@ const BottomTabs = () => {
           tabBarLabelStyle: {
             fontSize: 10,
             fontWeight: '600',
-            color: 'black',
+            color: '#8a8a8a',
           },
+          tabBarIcon: ({color, size, focused}) => (
+            <Icon
+              name="home"
+              size={24}
+              color={focused ? '#333333' : '#8a8a8a'}
+            />
+          ),
         }}
       />
 
@@ -40,8 +49,15 @@ const BottomTabs = () => {
           tabBarLabelStyle: {
             fontSize: 10,
             fontWeight: '600',
-            color: 'black',
+            color: '#8a8a8a',
           },
+          tabBarIcon: ({color, size, focused}) => (
+            <Icon
+              name="gift"
+              size={24}
+              color={focused ? '#333333' : '#8a8a8a'}
+            />
+          ),
         }}
       />
 
@@ -54,22 +70,36 @@ const BottomTabs = () => {
           tabBarLabelStyle: {
             fontSize: 10,
             fontWeight: '600',
-            color: 'black',
+            color: '#8a8a8a',
           },
+          tabBarIcon: ({color, size, focused}) => (
+            <Icon
+              name="shopping-cart"
+              size={24}
+              color={focused ? '#333333' : '#8a8a8a'}
+            />
+          ),
         }}
       />
 
       <Tab.Screen
-        name="E-Store"
-        component={AccountsScreen}
+        name="About"
+        component={AboutScreen}
         options={{
-          tabBarLabel: 'E-Store',
+          tabBarLabel: 'About',
           headerShown: false,
           tabBarLabelStyle: {
             fontSize: 10,
             fontWeight: '600',
-            color: 'black',
+            color: '#8a8a8a',
           },
+          tabBarIcon: ({color, size, focused}) => (
+            <Icon
+              name="info-circle"
+              size={24}
+              color={focused ? '#333333' : '#8a8a8a'}
+            />
+          ),
         }}
       />
 
@@ -82,8 +112,15 @@ const BottomTabs = () => {
           tabBarLabelStyle: {
             fontSize: 10,
             fontWeight: '600',
-            color: 'black',
+            color: '#8a8a8a',
           },
+          tabBarIcon: ({color, size, focused}) => (
+            <Icon
+              name="user"
+              size={24}
+              color={focused ? '#333333' : '#8a8a8a'}
+            />
+          ),
         }}
       />
     </Tab.Navigator>

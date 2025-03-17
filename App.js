@@ -17,32 +17,8 @@ import {
 import StackNavigator from './navigation/StackNavigator';
 import AppContextProvider from './context/AppContext';
 import {NavigationContainer} from '@react-navigation/native';
-
-// function Section({children, title}) {
-//   const isDarkMode = useColorScheme() === 'dark';
-//   return (
-//     <View style={styles.sectionContainer}>
-//       <Text
-//         style={[
-//           styles.sectionTitle,
-//           {
-//             color: isDarkMode ? Colors.white : Colors.black,
-//           },
-//         ]}>
-//         {title}
-//       </Text>
-//       <Text
-//         style={[
-//           styles.sectionDescription,
-//           {
-//             color: isDarkMode ? Colors.light : Colors.dark,
-//           },
-//         ]}>
-//         {children}
-//       </Text>
-//     </View>
-//   );
-// }
+import './global.css';
+import {verifyInstallation} from 'nativewind';
 
 function App() {
   // const isDarkMode = useColorScheme() === 'dark';

@@ -16,7 +16,7 @@ const CartScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Your Cart</Text>
+      {/* <Text style={styles.title}>Your Cart</Text> */}
       {cart.length === 0 ? (
         <View style={styles.emptyCart}>
           <Image
@@ -92,5 +92,31 @@ const styles = StyleSheet.create({
   emptyImage: {
     width: 160,
     height: 160,
+  },
+
+  button: {
+    marginTop: 20,
+    borderColor: '#4CAF50',
+    borderWidth: 1,
+    backgroundColor: '#4CAF50',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 4,
+    width: '50%',
+    textAlign: 'center',
+  },
+
+  buttonText: {
+    color: '#4CAF50',
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+
+  cartText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });

@@ -10,13 +10,6 @@ import {
   Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  withDelay,
-  Easing,
-} from 'react-native-reanimated';
 import {AppContext} from '../context/AppContext';
 // import { LinearGradient } from 'expo-linear-gradient';
 
